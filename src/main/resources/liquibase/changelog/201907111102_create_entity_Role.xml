@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <!--
+        Create sequence Role.
+    -->
+    <changeSet author="ivlopez" id="createSequence-role">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="role_seq" schemaName="user"/>
+            </not>
+        </preConditions>
+
+        <createSequence incrementBy="1"
+                        maxValue="99999999999999999999999999"
+                        minValue="0"
+                        ordered="true"
+                        schemaName="user"
+                        sequenceName="role_seq"
+                        startValue="0"/>
+    </changeSet>
+
+    <!--
+        Create table Role.
+    -->
+    <changeSet author="ivlopez" id="createTable-role">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="role" schemaName="user"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="role" schemaName="user">
+            <column name="id" type="number">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="code" type="varchar(32)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="number(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

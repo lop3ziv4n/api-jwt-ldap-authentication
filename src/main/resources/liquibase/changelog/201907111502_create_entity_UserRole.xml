@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <!--
+        Create table UserRole relationship User and Role.
+    -->
+    <changeSet author="ivlopez" id="createTable-user_role">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_role" schemaName="user"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user_role" schemaName="user">
+            <column name="user" type="number">
+                <constraints foreignKeyName="user_role_fk"
+                             referencedColumnNames="id"
+                             referencedTableName="user"
+                             nullable="false"/>
+            </column>
+            <column name="role" type="number">
+                <constraints foreignKeyName="role_user_fk"
+                             referencedColumnNames="id"
+                             referencedTableName="role"
+                             nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
